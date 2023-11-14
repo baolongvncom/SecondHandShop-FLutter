@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "1043646690412",
+    "project_id": "imageupload-demo-56fbe",
+    "storage_bucket": "imageupload-demo-56fbe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1043646690412:android:74d8bd0350fa8ff648d449",
+        "android_client_info": {
+          "package_name": "com.example.firebase_auth_turtorial"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1043646690412-afuvrgfe13umka0qvgokeltqamcdc7g7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAfD72bWvAV0BgJZzTkRxruqxfkk1tVAmk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1043646690412-afuvrgfe13umka0qvgokeltqamcdc7g7.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1043646690412-k1cuvlse6h5uiln7cc8d6l3rquhsckfk.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.flutterfiredemo"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
