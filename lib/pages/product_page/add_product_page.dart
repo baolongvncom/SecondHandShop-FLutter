@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_auth_turtorial/pages/chat_pages/utils.dart';
 import 'package:firebase_auth_turtorial/pages/product_page/product_services/product_services.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +36,10 @@ class _AddProductPageState extends State<AddProductPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: peachColor,
         appBar: AppBar(
+          backgroundColor: royalBlue,
+          elevation: 0,
           title: const Text('Add an item'),
         ),
         body:
@@ -84,6 +88,24 @@ class _AddProductPageState extends State<AddProductPage> {
                     return null;
                   },
                 ),
+
+                // Show preview image
+                if (previewImageURL != "")
+                  Container(
+                    width: double.infinity,
+                    height: 400,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: FileImage(File(previewImageURL)),
+                          fit: BoxFit.cover),
+                    ),
+                  ),
+                if (previewImageURL == "")
+                  const SizedBox(
+                    width: 100,
+                    height: 100,
+                    child: Center(child: Text("Pick an image!")),
+                  ),
                 IconButton(
                     onPressed: () async {
                       ImagePicker imagePicker = ImagePicker();
@@ -124,24 +146,11 @@ class _AddProductPageState extends State<AddProductPage> {
                           DateTime.now().millisecondsSinceEpoch.toString();
                     },
                     icon: const Icon(Icons.photo)),
-                // Show preview image
-                if (previewImageURL != "")
-                  Container(
-                    width: 100,
-                    height: 100,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                          image: FileImage(File(previewImageURL)),
-                          fit: BoxFit.cover),
-                    ),
-                  ),
-                if (previewImageURL == "")
-                  const SizedBox(
-                    width: 100,
-                    height: 100,
-                    child: Center(child: Text("Pick an image!")),
-                  ),
+
                 ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: royalBlue,
+                    ),
                     onPressed: () async {
                       // Check null value in all controller
                       if (_controllerName.text.isEmpty ||

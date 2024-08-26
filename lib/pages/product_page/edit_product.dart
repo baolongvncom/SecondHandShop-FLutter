@@ -1,3 +1,4 @@
+import 'package:firebase_auth_turtorial/pages/chat_pages/utils.dart';
 import 'package:firebase_auth_turtorial/pages/product_page/product_services/product_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -26,7 +27,9 @@ class EditProduct extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: peachColor,
       appBar: AppBar(
+        backgroundColor: royalBlue,
         title: const Text('Edit a product'),
       ),
       body: Padding(
@@ -35,6 +38,21 @@ class EditProduct extends StatelessWidget {
           key: _key,
           child: Column(
             children: [
+              const SizedBox(
+                height: 15,
+              ),
+              const Text(
+                "Product name",
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blue,
+                ),
+              ),
+              const Divider(
+                height: 5,
+                thickness: 2,
+              ),
               TextFormField(
                 controller: _controllerName,
                 decoration: const InputDecoration(
@@ -46,6 +64,21 @@ class EditProduct extends StatelessWidget {
 
                   return null;
                 },
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              const Text(
+                "Product price",
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.orange,
+                ),
+              ),
+              const Divider(
+                height: 5,
+                thickness: 2,
               ),
               TextFormField(
                 controller: _controllerPrice,
@@ -63,6 +96,20 @@ class EditProduct extends StatelessWidget {
                   return null;
                 },
               ),
+              const SizedBox(
+                height: 30,
+              ),
+              const Text(
+                "Description",
+                style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                    color: royalBlue),
+              ),
+              const Divider(
+                height: 5,
+                thickness: 2,
+              ),
               TextFormField(
                 controller: _controllerDescription,
                 decoration: const InputDecoration(
@@ -75,35 +122,41 @@ class EditProduct extends StatelessWidget {
                   return null;
                 },
               ),
-              ElevatedButton(
-                  onPressed: () async {
-                    if (_key.currentState!.validate()) {
-                      String name = _controllerName.text;
-                      int price = int.parse(_controllerPrice.text);
-                      String description = _controllerDescription.text;
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: royalBlue,
+                    ),
+                    onPressed: () async {
+                      if (_key.currentState!.validate()) {
+                        String name = _controllerName.text;
+                        int price = int.parse(_controllerPrice.text);
+                        String description = _controllerDescription.text;
 
-                      var code = await _productServices.editProduct(
-                        productID: _productToEdit['productID'],
-                        name: name,
-                        price: price,
-                        description: description,
-                        context: context,
-                      );
-                      // show the snackbar
-                      // ignore: use_build_context_synchronously
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          behavior: SnackBarBehavior.floating,
-                          duration: const Duration(seconds: 2),
-                          content: Text(code),
-                        ),
-                      );
+                        var code = await _productServices.editProduct(
+                          productID: _productToEdit['productID'],
+                          name: name,
+                          price: price,
+                          description: description,
+                          context: context,
+                        );
+                        // show the snackbar
+                        // ignore: use_build_context_synchronously
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            behavior: SnackBarBehavior.floating,
+                            duration: const Duration(seconds: 2),
+                            content: Text(code),
+                          ),
+                        );
 
-                      // return to the previous screen
-                      // ignore: use_build_context_synchronously
-                    }
-                  },
-                  child: const Text('Submit'))
+                        // return to the previous screen
+                        // ignore: use_build_context_synchronously
+                      }
+                    },
+                    child: const Text('Submit')),
+              )
             ],
           ),
         ),

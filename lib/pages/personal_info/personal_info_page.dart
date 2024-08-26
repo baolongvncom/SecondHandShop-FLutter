@@ -2,7 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth_turtorial/pages/Authentication%20Pages/authentication_services/authentication.dart';
 import 'package:firebase_auth_turtorial/pages/chat_pages/utils.dart';
 import 'package:firebase_auth_turtorial/pages/product_page/cart.dart';
+import 'package:firebase_auth_turtorial/pages/product_page/colors.dart';
 import 'package:firebase_auth_turtorial/pages/product_page/orders_page.dart';
+import 'package:firebase_auth_turtorial/pages/product_page/product_services/cart_order_services.dart';
 import 'package:firebase_auth_turtorial/pages/product_page/user_product_page.dart';
 import 'package:flutter/material.dart';
 
@@ -21,11 +23,14 @@ class UserPage extends StatelessWidget {
 
   late Map data;
 
+  final CartAndOrder _cartAndOrderServices = CartAndOrder();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: peachColor,
       appBar: AppBar(
+        backgroundColor: royalBlue,
         title: const Text('Personal Info'),
         actions: [
           // Sign out button
@@ -79,49 +84,152 @@ class UserPage extends StatelessWidget {
                       ),
                     ),
 
-                    const SizedBox(height: 20),
-                    Text('UserName ${data['name']}'),
-                    const SizedBox(height: 20),
-                    Text('UserEmail ${data['email']}'),
-                    const SizedBox(height: 20),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 15),
+                      child: Divider(
+                        height: 2,
+                        thickness: 2,
+                      ),
+                    ),
+                    const Text(
+                      "User Name",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Text(
+                      data['name'],
+                      style: const TextStyle(
+                          fontSize: 20,
+                          color: mainText,
+                          fontWeight: FontWeight.w300),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 15),
+                      child: Divider(
+                        height: 2,
+                        thickness: 2,
+                      ),
+                    ),
+                    const Text(
+                      "User Email",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Text(
+                      data['email'],
+                      style: const TextStyle(
+                          fontSize: 20,
+                          color: mainText,
+                          fontWeight: FontWeight.w300),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 15),
+                      child: Divider(
+                        height: 2,
+                        thickness: 2,
+                      ),
+                    ),
+                    const SizedBox(height: 40),
                     // Button navigate to product page
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => UserProductPage(userEmail),
+                    Center(
+                      child: SizedBox(
+                        // make the button curved like a circle
+                        width: 150, // Độ rộng của nút
+                        height: 50,
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all<Color>(royalBlue),
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(100),
+                              ),
+                            ),
                           ),
-                        );
-                      },
-                      child: const Text('My Products'),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    UserProductPage(userEmail),
+                              ),
+                            );
+                          },
+                          child: const Text('My Products'),
+                        ),
+                      ),
                     ),
 
                     const SizedBox(height: 20),
                     // Button navigate to cart page
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Cart(userEmail),
+                    Center(
+                      child: SizedBox(
+                        width: 150, // Độ rộng của nút
+                        height: 50,
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all<Color>(royalBlue),
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(100),
+                              ),
+                            ),
                           ),
-                        );
-                      },
-                      child: const Text('Cart'),
+                          onPressed: () async {
+                            await _cartAndOrderServices.updateCartStatus();
+                            // ignore: use_build_context_synchronously
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Cart(userEmail),
+                              ),
+                            );
+                          },
+                          child: const Text('Cart'),
+                        ),
+                      ),
                     ),
                     const SizedBox(height: 20),
                     // Button navigate to order page
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => OrderPage(userEmail),
+                    Center(
+                      child: SizedBox(
+                        width: 150, // Độ rộng của nút
+                        height: 50,
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all<Color>(royalBlue),
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(100),
+                              ),
+                            ),
                           ),
-                        );
-                      },
-                      child: const Text('Order'),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => OrderPage(userEmail),
+                              ),
+                            );
+                          },
+                          child: const Text('Order'),
+                        ),
+                      ),
                     ),
                   ],
                 ),

@@ -136,6 +136,8 @@ class ProductDetail extends StatelessWidget {
                         content: Text(code),
                       ),
                     );
+                    // ignore: use_build_context_synchronously
+                    Navigator.of(context).pop();
                   } else if (data['status'] == 'Sold') {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(

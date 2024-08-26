@@ -134,7 +134,7 @@ class CartAndOrder {
     if (productStatus == 'Sold') {
       return 'Product has been sold';
     }
-    
+
     // update user order status
     await _fireSotreReference
         .collection('cart_orders')
@@ -373,36 +373,31 @@ class CartAndOrder {
   }
 
   // delete product from order
-  Future<String> deleteFromOrder(String productID) async {
+  Future<String> deleteFromOrder(String orderID) async {
     String orderStatus = '';
 
     // get current user
-    final currentUser = _firebaseAuth.currentUser;
-
-    // get user email
-    String userEmail = currentUser?.email ?? '';
 
     _orderReference = FirebaseFirestore.instance
         .collection('cart_orders')
         .doc(userEmail)
-        .collection('cart')
-        .doc(productID);
+        .collection('sell_orders')
+        .doc(orderID);
     _futureOrderData = _orderReference.get();
 
     await _futureOrderData.then((value) {
       orderStatus = value['status'];
     });
 
-    if (orderStatus != 'In cart') {
-      return 'Can not delete product from buyer orders';
+    if (orderStatus != 'Order rejected' && orderStatus != 'Product delieverd') {
+      return 'Can not delete product from sell orders';
     }
-
     // delete product from user cart
     await _fireSotreReference
         .collection('cart_orders')
         .doc(userEmail)
         .collection('sell_orders')
-        .doc(productID)
+        .doc(orderID)
         .delete();
 
     return 'Order deleted';
@@ -623,5 +618,80 @@ class CartAndOrder {
     );
 
     return 'Order rejected';
+  }
+
+  // update cart status after pressing into cart
+  Future<void> updateCartStatus() async {
+    currentTime = Timestamp.now();
+
+    // get all order in cart
+    QuerySnapshot querySnapshot = await _fireSotreReference
+        .collection('cart_orders')
+        .doc(userEmail)
+        .collection('cart')
+        .get();
+
+    // get all order in cart
+    await Future.forEach(querySnapshot.docs, (element) async {
+      // element to map
+      Map<String, dynamic> elementMap = element.data() as Map<String, dynamic>;
+      // get product status
+      _productReference = FirebaseFirestore.instance
+          .collection('product_list')
+          .doc(elementMap['productID']);
+      _futureProductData = _productReference.get();
+      await _futureProductData.then((value) async {
+        if (!value.exists) {
+          await _fireSotreReference
+              .collection('cart_orders')
+              .doc(userEmail)
+              .collection('cart')
+              .doc(elementMap['productID'])
+              .set(
+            {
+              'status': 'Product has been deleted',
+              'time': currentTime,
+            },
+            SetOptions(merge: true),
+          );
+        } else {
+          productStatus = value['status'];
+        }
+      });
+
+      // check if product status is not available
+      if (productStatus == 'Not available') {
+        // update cart status
+        await _fireSotreReference
+            .collection('cart_orders')
+            .doc(userEmail)
+            .collection('cart')
+            .doc(elementMap['productID'])
+            .set(
+          {
+            'status': 'Not available',
+            'time': currentTime,
+          },
+          SetOptions(merge: true),
+        );
+      }
+
+      // check if product status is sold
+      if (productStatus == 'Sold') {
+        // update cart status
+        await _fireSotreReference
+            .collection('cart_orders')
+            .doc(userEmail)
+            .collection('cart')
+            .doc(elementMap['productID'])
+            .set(
+          {
+            'status': 'Sold out',
+            'time': currentTime,
+          },
+          SetOptions(merge: true),
+        );
+      }
+    });
   }
 }

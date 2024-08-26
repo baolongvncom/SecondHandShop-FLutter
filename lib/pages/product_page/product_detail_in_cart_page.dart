@@ -23,6 +23,8 @@ class ProductDetailInCart extends StatelessWidget {
     'Order rejected': Colors.red,
     'Product is being delievered': Colors.purpleAccent,
     'Product Received': Colors.greenAccent,
+    'Not available': Colors.redAccent,
+    'Sold out': Colors.redAccent,
   };
 
   // Make a FloatingActionButton map with status
@@ -237,9 +239,12 @@ class ProductDetailInCart extends StatelessWidget {
                             height: 2,
                           ),
                         ),
+                        const SizedBox(
+                          height: 50,
+                        ),
                       ],
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
@@ -249,7 +254,9 @@ class ProductDetailInCart extends StatelessWidget {
                   borderRadius: BorderRadius.circular(30),
                   side: const BorderSide(color: royalBlue)),
               label: Text(
-                statusInCart[cartStatus]!,
+                statusInCart[cartStatus] == null
+                    ? cartStatus
+                    : statusInCart[cartStatus]!,
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 25,

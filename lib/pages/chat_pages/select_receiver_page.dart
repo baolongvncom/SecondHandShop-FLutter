@@ -88,7 +88,7 @@ class _SelectReceiverPageState extends State<SelectReceiverPage> {
         // make each card far apart
         margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 8.0),
         color: Colors.blue[100],
-        elevation: 1.0,
+        elevation: 0,
         // make the card curved
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(25.0),
