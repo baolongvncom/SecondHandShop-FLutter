@@ -56,3 +56,9 @@ SecondHandShop is a Mobile App that allows people to trade or sell their used it
 - Cart
 
 ![image](https://github.com/user-attachments/assets/1b292387-7e0a-4fbe-acf4-5422331df90b)
+
+# How to install
+- Clone the project
+- Run pub get
+- Connect with a phone (virtual or through USB Debugging)
+- Start debugging
